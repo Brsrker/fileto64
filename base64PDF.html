@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Convertir PDF a base64-encoded</title>
+  </head>
+  <body>
+    <h1>Convertir PDF a base64-encoded</h1>
+    <form>
+      <label for="pdf-file">Selecciona un archivo PDF:</label>
+      <input type="file" id="pdf-file"><br>
+      <button type="button" id="convert-button">Convertir</button>
+    </form>
+    <script>
+      // Añade un manejador de eventos para el botón
+      const button = document.getElementById('convert-button');
+      button.addEventListener('click', () => {
+        // Obtén el archivo seleccionado
+        const fileInput = document.getElementById('pdf-file');
+        const file = fileInput.files[0];
+        
+        // Carga el archivo en un objeto FileReader
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        
+        // Cuando se cargue el archivo, descarga el archivo de texto
+        reader.onload = () => {
+          // El resultado de la carga del archivo es una cadena base64-encoded
+          const base64String = reader.result.split(',')[1];
+          
+          // Crea un enlace de descarga
+          const downloadLink = document.createElement('a');
+          downloadLink.download = 'pdf-base64.txt';
+          downloadLink.href = 'data:text/plain;base64,' + base64String;
+          
+          // Haz clic en el enlace de descarga para descargar el archivo
+          downloadLink.click();
+        };
+      });
+    </script>
+  </body>
+</html>
